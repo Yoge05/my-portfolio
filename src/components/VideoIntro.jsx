@@ -51,7 +51,7 @@ const VideoIntro = () => {
           {/* Video wrapper — 16:9 */}
           <div className="relative w-full rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(255,42,42,0.2)] border border-white/10 aspect-video">
             <iframe
-              src="https://www.youtube.com/embed/hGrWrhVfgr0?rel=0&modestbranding=1&color=white"
+              src="https://www.youtube.com/embed/RyiMbdB8QI8?rel=0&modestbranding=1&color=white"
               title="Video Introduction"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
