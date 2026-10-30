@@ -12,112 +12,154 @@ const ExternalLinkIcon = () => (
   </svg>
 );
 
-const ProjectCard = ({ project, aosDelay }) => (
-  <div 
-    data-aos="fade-up"
-    data-aos-delay={aosDelay}
-    className={`relative rounded-2xl p-[1px] group transition-all duration-500 ${
-      project.isFlagship 
-        ? 'bg-gradient-to-br from-red-500/50 via-white/10 to-red-500/30 hover:from-red-500 hover:via-red-400/30 hover:to-red-500/60' 
-        : 'bg-white/10 hover:bg-white/20'
-    }`}
-  >
-    <div className={`rounded-2xl p-6 md:p-8 h-full backdrop-blur-md transition-all duration-500 ${
-      project.isFlagship 
-        ? 'bg-[#0f0f0f]/95 group-hover:bg-[#0f0f0f]/90' 
-        : 'bg-[#111111]/90 group-hover:bg-[#111111]/80'
-    }`}>
-      {/* Badge */}
-      {project.badge && (
-        <span className="inline-block text-xs font-bold tracking-widest uppercase text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 mb-4">
-          {project.badge}
-        </span>
-      )}
+const getYouTubeEmbedUrl = (url) => {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}?rel=0&modestbranding=1` : url;
+};
 
-      {/* Number + Title */}
-      <div className="flex items-baseline gap-4 mb-4">
-        <span className="text-5xl font-black text-white/10 font-serif italic">{project.number}</span>
-        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">{project.title}</h3>
-      </div>
+const ProjectCard = ({ project, aosDelay }) => {
+  const embedUrl = getYouTubeEmbedUrl(project.videoUrl);
 
-      {/* Description */}
-      <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 max-w-2xl font-medium">
-        {project.description}
-      </p>
+  return (
+    <div 
+      data-aos="fade-up"
+      data-aos-delay={aosDelay}
+      className={`relative rounded-2xl p-[1px] group transition-all duration-500 ${
+        project.isFlagship 
+          ? 'bg-gradient-to-br from-red-500/50 via-white/10 to-red-500/30 hover:from-red-500 hover:via-red-400/30 hover:to-red-500/60' 
+          : 'bg-white/10 hover:bg-white/20'
+      }`}
+    >
+      <div className={`rounded-2xl p-6 md:p-8 h-full backdrop-blur-md transition-all duration-500 ${
+        project.isFlagship 
+          ? 'bg-[#0f0f0f]/95 group-hover:bg-[#0f0f0f]/90' 
+          : 'bg-[#111111]/90 group-hover:bg-[#111111]/80'
+      }`}>
+        <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-center justify-between">
+          
+          {/* Left Column: Project Details */}
+          <div className="flex-1 w-full">
+            {/* Badge */}
+            {project.badge && (
+              <span className="inline-block text-xs font-bold tracking-widest uppercase text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20 mb-4">
+                {project.badge}
+              </span>
+            )}
 
-      {/* Tech Tags */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {project.techTags.map((tag) => (
-          <span 
-            key={tag}
-            className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+            {/* Number + Title */}
+            <div className="flex items-baseline gap-4 mb-4">
+              <span className="text-4xl md:text-5xl font-black text-white/10 font-serif italic">{project.number}</span>
+              <h3 className="text-2xl md:text-3xl font-black text-white tracking-tight">{project.title}</h3>
+            </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-3">
-        {/* GitHub */}
-        {project.links.github && (
-          <a 
-            href={project.links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white hover:text-black transition-all duration-300 group/btn"
-          >
-            <GitHubIcon />
-            GitHub
-          </a>
-        )}
+            {/* Description */}
+            <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 font-medium">
+              {project.description}
+            </p>
 
-        {/* Live Demo (single) */}
-        {project.links.demo !== undefined && (
-          <a 
-            href={project.links.demo || '#'}
-            target={project.links.demo ? "_blank" : undefined}
-            rel={project.links.demo ? "noopener noreferrer" : undefined}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
-              project.links.demo 
-                ? 'bg-[#ff2a2a] text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)]' 
-                : 'bg-white/5 text-white/40 border border-white/10 cursor-not-allowed'
-            }`}
-          >
-            <ExternalLinkIcon />
-            {project.links.demo ? 'Live Demo' : 'Demo Coming Soon'}
-          </a>
-        )}
+            {/* Tech Tags */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {project.techTags.map((tag) => (
+                <span 
+                  key={tag}
+                  className="px-3 py-1 text-xs font-bold text-white/70 bg-white/5 rounded-full border border-white/10 hover:bg-red-500/20 hover:border-red-500/30 hover:text-red-300 transition-all duration-300 cursor-default"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-        {/* Frontend Demo (Karigar) */}
-        {project.links.frontendDemo && (
-          <a 
-            href={project.links.frontendDemo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff2a2a] text-white text-sm font-semibold hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] transition-all duration-300"
-          >
-            <ExternalLinkIcon />
-            Frontend Demo
-          </a>
-        )}
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-3">
+              {/* GitHub */}
+              {project.links.github && (
+                <a 
+                  href={project.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white hover:text-black transition-all duration-300 group/btn"
+                >
+                  <GitHubIcon />
+                  GitHub
+                </a>
+              )}
 
-        {/* Backend API (Karigar) */}
-        {project.links.backendApi && (
-          <a 
-            href={project.links.backendApi}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300"
-          >
-            <ExternalLinkIcon />
-            Backend API
-          </a>
-        )}
+              {/* Live Demo (single) */}
+              {project.links.demo !== undefined && (
+                <a 
+                  href={project.links.demo || '#'}
+                  target={project.links.demo ? "_blank" : undefined}
+                  rel={project.links.demo ? "noopener noreferrer" : undefined}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    project.links.demo 
+                      ? 'bg-[#ff2a2a] text-white hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)]' 
+                      : 'bg-white/5 text-white/40 border border-white/10 cursor-not-allowed'
+                  }`}
+                >
+                  <ExternalLinkIcon />
+                  {project.links.demo ? 'Live Demo' : 'Demo Coming Soon'}
+                </a>
+              )}
+
+              {/* Frontend Demo (Karigar) */}
+              {project.links.frontendDemo && (
+                <a 
+                  href={project.links.frontendDemo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff2a2a] text-white text-sm font-semibold hover:bg-red-600 hover:shadow-[0_0_20px_rgba(255,42,42,0.4)] transition-all duration-300"
+                >
+                  <ExternalLinkIcon />
+                  Frontend Demo
+                </a>
+              )}
+
+              {/* Backend API (Karigar) */}
+              {project.links.backendApi && (
+                <a 
+                  href={project.links.backendApi}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300"
+                >
+                  <ExternalLinkIcon />
+                  Backend API
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Right Column: YouTube Video */}
+          <div className="w-full lg:w-[460px] xl:w-[500px] shrink-0">
+            {embedUrl ? (
+              <div className="relative w-full rounded-xl overflow-hidden aspect-video border border-white/15 bg-black shadow-[0_8px_30px_rgba(0,0,0,0.6)] group-hover:border-red-500/40 transition-all duration-300">
+                <iframe
+                  src={embedUrl}
+                  title={`${project.title} Video`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
+              </div>
+            ) : (
+              <div className="relative w-full rounded-xl overflow-hidden aspect-video border border-dashed border-white/15 bg-white/[0.02] flex flex-col items-center justify-center p-6 text-center text-white/50">
+                <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-3">
+                  <svg className="w-6 h-6 text-[#ff2a2a] ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <p className="text-sm font-semibold text-white/80">Project Video Preview</p>
+                <p className="text-xs text-white/40 mt-1">Add videoUrl in portfolioData.js</p>
+              </div>
+            )}
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Projects = () => {
   return (

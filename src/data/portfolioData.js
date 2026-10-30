@@ -157,6 +157,7 @@ export const projects = [
       "Developed an interactive UML diagram visualizer for creating and visualizing object-oriented programming concepts using React 19, TypeScript, React Flow, and ELK.js.",
     techTags: ["React 19", "TypeScript", "React Flow", "Tailwind CSS", "Zustand", "Vite"],
     links: { github: null, demo: "https://uml-visualizer.vercel.app/" },
+    videoUrl: "https://www.youtube.com/watch?v=RyiMbdB8QI8",
     isFlagship: true,
   },
   {
@@ -168,6 +169,7 @@ export const projects = [
       "Developing an interactive DSA visualization platform that demonstrates data structures and algorithms through step-by-step execution.",
     techTags: ["React 19", "TypeScript", "Vite", "Zustand", "Express", "Node.js"],
     links: { github: null, demo: "https://dsa-visualizer-pearl.vercel.app/" },
+    videoUrl: "https://www.youtube.com/watch?v=hGrWrhVfgr0",
     isFlagship: false,
   }
 ];
